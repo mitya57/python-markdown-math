@@ -36,7 +36,6 @@ class MathExtension(markdown.extensions.Extension):
                 m.group(3) + m.group(4))
             return node
 
-        print (self.config)
         configs = self.getConfigs()
         inlinemathpatterns = (
             markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),  #  $...$
