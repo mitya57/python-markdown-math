@@ -12,11 +12,13 @@ Author: 2015, Dmitry Shachnev <mitya57@gmail.com>.
 import markdown
 
 class MathExtension(markdown.extensions.Extension):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, configs=[]):
         self.config = {
             'enable_dollar_delimiter': [False, 'Enable single-dollar delimiter'],
         }
-        super(MathExtension, self).__init__(*args, **kwargs)
+
+        for key, value in configs:
+            self.setConfig(key, value)
 
     def extendMarkdown(self, md, md_globals):
         def handle_match_inline(m):
