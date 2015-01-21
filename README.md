@@ -8,9 +8,11 @@ This extension adds math formulas support to [Python-Markdown].
 Installation
 ------------
 
-Simply copy `math.py` into markdown extensions path, for example
-`/usr/lib/python3/dist-packages/markdown/extensions/`.
+Use `setup.py build` and `setup.py install` to build and install this
+extension, respectively.
 
+The extension name is `mdx_math`, so you need to add that name to your
+list of Python-Markdown extensions.
 Check [Python-Markdown documentation] for details on how to load
 extensions.
 
