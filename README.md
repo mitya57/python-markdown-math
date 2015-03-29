@@ -49,7 +49,7 @@ For inline math, use `\(...\)`.
 For standalone math, use `$$...$$`, `\[...\]` or `\begin...\end`.
 
 The single-dollar delimiter (`$...$`) for inline math is disabled by
-default, but can be enabled by passing `single_dollar_delimiter=True`
+default, but can be enabled by passing `enable_dollar_delimiter=True`
 in the extension configuration.
 
 Notes
