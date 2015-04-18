@@ -28,10 +28,10 @@ class MathExtension(markdown.extensions.Extension):
         def handle_match(m):
             node = markdown.util.etree.Element('script')
             node.set('type', 'math/tex; mode=display')
-            node.text = markdown.util.AtomicString(m.group(3))
             if '\\begin' in m.group(2):
-                node.text = markdown.util.AtomicString(m.group(2) +
-                m.group(3) + m.group(4))
+                node.text = markdown.util.AtomicString(m.group(2) + m.group(4) + m.group(5))
+            else:
+                node.text = markdown.util.AtomicString(m.group(3))
             return node
 
         configs = self.getConfigs()
@@ -42,7 +42,7 @@ class MathExtension(markdown.extensions.Extension):
         mathpatterns = (
             markdown.inlinepatterns.Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'), # $$...$$
             markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),    # \[...\]
-            markdown.inlinepatterns.Pattern(r'(?<!\\)(\\begin{[a-z]+\*?})(.+)(\\end{[a-z]+\*?})')
+            markdown.inlinepatterns.Pattern(r'(?<!\\)(\\begin{([a-z]+?\*?)})(.+?)(\\end{\3})')
         )
         if not configs['enable_dollar_delimiter']:
             inlinemathpatterns = inlinemathpatterns[1:]
