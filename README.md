@@ -9,6 +9,14 @@ This extension adds math formulas support to [Python-Markdown]
 Installation
 ------------
 
+### Install from PyPI
+
+```
+pip install python-markdown-math
+```
+
+### Install locally
+
 Use `setup.py build` and `setup.py install` to build and install this
 extension, respectively.
 
