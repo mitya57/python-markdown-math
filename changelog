@@ -1,3 +1,11 @@
+Version 0.2, 2015-12-05
+=======================
+
+* Fix compatibility with earlier Python-Markdown versions.
+  - Thanks to Bryan A. Jones for the contribution.
+* Add installation instructions from PyPI.
+  - Thanks to Drew Hubl for the contribution.
+
 Version 0.1, 2015-08-12
 =======================
 
