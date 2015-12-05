@@ -1,8 +1,7 @@
 Math extension for Python-Markdown
 ==================================
 
-This extension adds math formulas support to [Python-Markdown]
-(works with version 2.6 or newer).
+This extension adds math formulas support to [Python-Markdown].
 
 [Python-Markdown]: https://github.com/waylan/Python-Markdown
 
