@@ -1,3 +1,6 @@
+[![Travis CI status](https://api.travis-ci.org/mitya57/python-markdown-math.svg)][Travis]
+[Travis]: https://travis-ci.org/mitya57/python-markdown-math
+
 Math extension for Python-Markdown
 ==================================
 
