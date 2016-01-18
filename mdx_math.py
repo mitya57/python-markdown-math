@@ -15,14 +15,22 @@ class MathExtension(markdown.extensions.Extension):
     def __init__(self, *args, **kwargs):
         self.config = {
             'enable_dollar_delimiter': [False, 'Enable single-dollar delimiter'],
+            'render_to_span': [False,
+                'Render to span elements rather than script for fallback'],
         }
         super(MathExtension, self).__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
         def handle_match_inline(m):
-            node = markdown.util.etree.Element('script')
-            node.set('type', 'math/tex')
-            node.text = markdown.util.AtomicString(m.group(3))
+            if self.getConfig('render_to_span'):
+                node = markdown.util.etree.Element('span')
+                node.set('class', 'tex')
+                node.text = ("\\\\(" + markdown.util.AtomicString(m.group(3)) +
+                        "\\\\)")
+            else:
+                node = markdown.util.etree.Element('script')
+                node.set('type', 'math/tex')
+                node.text = markdown.util.AtomicString(m.group(3))
             return node
 
         def handle_match(m):

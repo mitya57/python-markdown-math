@@ -63,6 +63,10 @@ The single-dollar delimiter (`$...$`) for inline math is disabled by
 default, but can be enabled by passing `enable_dollar_delimiter=True`
 in the extension configuration.
 
+If you want to render to span elements with inline math rather than script
+elements, so as to improve fallback when JavaScript is disabled or unavailable,
+use `render_to_span=True`.
+
 Notes
 -----
 
