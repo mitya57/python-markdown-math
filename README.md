@@ -14,7 +14,7 @@ Installation
 ### Install from PyPI
 
 ```
-pip install python-markdown-math
+$ pip install python-markdown-math
 ```
 
 ### Install locally
@@ -34,7 +34,9 @@ Usage
 
 To use this extension, you need to include [MathJax] library in HTML files, like:
 
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+```html
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+```
 
 [MathJax]: http://www.mathjax.org/
 
@@ -44,27 +46,33 @@ with this code.
 
 Example of MathJax configuration:
 
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      config: ["MMLorHTML.js"],
-      jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML"],
-      extensions: ["MathMenu.js", "MathZoom.js"]
-    });
-    </script>
+```html
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  config: ["MMLorHTML.js"],
+  jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML"],
+  extensions: ["MathMenu.js", "MathZoom.js"]
+});
+</script>
+```
 
 To pass the extension to Python-Markdown, use `mdx_math` as extension name.
 For example:
 
-    >>> md = markdown.Markdown(extensions=['mdx_math'])
-    >>> md.convert('$$e^x$$')
-    '<p>\n<script type="math/tex; mode=display">e^x</script>\n</p>'
+```python
+>>> md = markdown.Markdown(extensions=['mdx_math'])
+>>> md.convert('$$e^x$$')
+'<p>\n<script type="math/tex; mode=display">e^x</script>\n</p>'
+```
 
 Usage from the command line:
 
-    $ echo "\(e^x\)" | python3 -m markdown -x mdx_math
-    <p>
-    <script type="math/tex">e^x</script>
-    </p>
+```
+$ echo "\(e^x\)" | python3 -m markdown -x mdx_math
+<p>
+<script type="math/tex">e^x</script>
+</p>
+```
 
 Math Delimiters
 ---------------
