@@ -52,6 +52,20 @@ Example of MathJax configuration:
     });
     </script>
 
+To pass the extension to Python-Markdown, use `mdx_math` as extension name.
+For example:
+
+    >>> md = markdown.Markdown(extensions=['mdx_math'])
+    >>> md.convert('$$e^x$$')
+    '<p>\n<script type="math/tex; mode=display">e^x</script>\n</p>'
+
+Usage from the command line:
+
+    $ echo "\(e^x\)" | python3 -m markdown -x mdx_math
+    <p>
+    <script type="math/tex">e^x</script>
+    </p>
+
 Math Delimiters
 ---------------
 
