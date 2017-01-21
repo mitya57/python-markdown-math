@@ -92,5 +92,5 @@ use `render_to_span=True`.
 Notes
 -----
 
-If you use [ReText](http://retext.sourceforge.net/), this extension is not needed as it is
-included by default.
+If you use [ReText](https://github.com/retext-project/retext), this extension
+is not needed as it is included by default.
