@@ -10,37 +10,41 @@ Author: 2015, Dmitry Shachnev <mitya57@gmail.com>.
 '''
 
 import markdown
+from markdown.util import AtomicString, etree
 
 class MathExtension(markdown.extensions.Extension):
     def __init__(self, *args, **kwargs):
         self.config = {
             'enable_dollar_delimiter': [False, 'Enable single-dollar delimiter'],
-            'render_to_span': [False,
-                'Render to span elements rather than script for fallback'],
+            'add_preview': [False, 'Add a preview node before each math node'],
         }
         super(MathExtension, self).__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
+        def _wrap_node(node, preview_text, wrapper_tag):
+            if not self.getConfig('add_preview'):
+                return node
+            preview = etree.Element('span', {'class': 'MathJax_Preview'})
+            preview.text = AtomicString(preview_text)
+            wrapper = etree.Element(wrapper_tag)
+            wrapper.extend([preview, node])
+            return wrapper
+
         def handle_match_inline(m):
-            if self.getConfig('render_to_span'):
-                node = markdown.util.etree.Element('span')
-                node.set('class', 'tex')
-                node.text = ("\\\\(" + markdown.util.AtomicString(m.group(3)) +
-                        "\\\\)")
-            else:
-                node = markdown.util.etree.Element('script')
-                node.set('type', 'math/tex')
-                node.text = markdown.util.AtomicString(m.group(3))
-            return node
+            node = etree.Element('script')
+            node.set('type', 'math/tex')
+            node.text = AtomicString(m.group(3))
+            return _wrap_node(node, ''.join(m.group(2, 3, 4)), 'span')
 
         def handle_match(m):
-            node = markdown.util.etree.Element('script')
+            node = etree.Element('script')
             node.set('type', 'math/tex; mode=display')
             if '\\begin' in m.group(2):
-                node.text = markdown.util.AtomicString(m.group(2) + m.group(4) + m.group(5))
+                node.text = AtomicString(''.join(m.group(2, 4, 5)))
+                return _wrap_node(node, ''.join(m.group(1, 2, 4, 5, 6)), 'div')
             else:
-                node.text = markdown.util.AtomicString(m.group(3))
-            return node
+                node.text = AtomicString(m.group(3))
+                return _wrap_node(node, ''.join(m.group(2, 3, 4)), 'div')
 
         inlinemathpatterns = (
             markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),  #  $...$
