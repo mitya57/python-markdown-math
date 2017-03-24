@@ -1,3 +1,12 @@
+Version 0.3, 2017-03-24
+=======================
+
+* Added “show_preview” configuration option, which adds preview nodes
+  as recognized by MathJax before every script node.
+  - Thanks to Antoine Amarilli and Danni Randeris for their initial work.
+* Added a test suite.
+* Documentation improvements.
+
 Version 0.2, 2015-12-05
 =======================
 
