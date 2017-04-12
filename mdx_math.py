@@ -4,18 +4,22 @@
 Math extension for Python-Markdown
 ==================================
 
-Adds support for displaying math formulas using [MathJax](http://www.mathjax.org/).
+Adds support for displaying math formulas using
+[MathJax](http://www.mathjax.org/).
 
 Author: 2015-2017, Dmitry Shachnev <mitya57@gmail.com>.
 '''
 
-import markdown
+from markdown.inlinepatterns import Pattern
+from markdown.extensions import Extension
 from markdown.util import AtomicString, etree
 
-class MathExtension(markdown.extensions.Extension):
+
+class MathExtension(Extension):
     def __init__(self, *args, **kwargs):
         self.config = {
-            'enable_dollar_delimiter': [False, 'Enable single-dollar delimiter'],
+            'enable_dollar_delimiter':
+                [False, 'Enable single-dollar delimiter'],
             'add_preview': [False, 'Add a preview node before each math node'],
         }
         super(MathExtension, self).__init__(*args, **kwargs)
@@ -47,13 +51,13 @@ class MathExtension(markdown.extensions.Extension):
                 return _wrap_node(node, ''.join(m.group(2, 3, 4)), 'div')
 
         inlinemathpatterns = (
-            markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),  #  $...$
-            markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')     # \(...\)
+            Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),   #  $...$
+            Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')      # \(...\)
         )
         mathpatterns = (
-            markdown.inlinepatterns.Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'), # $$...$$
-            markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),    # \[...\]
-            markdown.inlinepatterns.Pattern(r'(?<!\\)(\\begin{([a-z]+?\*?)})(.+?)(\\end{\3})')
+            Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'),  # $$...$$
+            Pattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),     # \[...\]
+            Pattern(r'(?<!\\)(\\begin{([a-z]+?\*?)})(.+?)(\\end{\3})')
         )
         if not self.getConfig('enable_dollar_delimiter'):
             inlinemathpatterns = inlinemathpatterns[1:]
@@ -63,6 +67,7 @@ class MathExtension(markdown.extensions.Extension):
         for i, pattern in enumerate(mathpatterns):
             pattern.handleMatch = handle_match
             md.inlinePatterns.add('math-%d' % i, pattern, '<escape')
+
 
 def makeExtension(*args, **kwargs):
     return MathExtension(*args, **kwargs)
