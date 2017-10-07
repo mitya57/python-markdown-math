@@ -22,6 +22,7 @@ class MathTestCase(unittest.TestCase):
     test_inline_tex = r('inline_tex', 'inline', {'enable_dollar_delimiter': True})
     test_inline_tex_disabled = r('inline_tex', 'inline_tex_disabled')
     test_inline_inside_code = r('inline_latex_inside_code', 'inline_latex_inside_code')
+    test_inline_inside_standalone = r('inline_inside_standalone', 'inline_inside_standalone')
     test_standalone_latex = r('standalone_latex', 'standalone')
     test_standalone_latex_escaped = r('standalone_latex_escaped', 'standalone_latex_escaped')
     test_standalone_latex_preview = r('standalone_latex', 'standalone_preview', {'add_preview': True})
