@@ -1,0 +1,1 @@
+Escaped \$ dollar sign and real $math$.
