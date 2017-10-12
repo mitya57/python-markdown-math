@@ -67,6 +67,8 @@ class MathExtension(Extension):
         for i, pattern in enumerate(inlinemathpatterns):
             pattern.handleMatch = handle_match_inline
             md.inlinePatterns.add('math-inline-%d' % i, pattern, '<escape')
+        if self.getConfig('enable_dollar_delimiter'):
+            md.ESCAPED_CHARS.append('$')
 
 
 def makeExtension(*args, **kwargs):
