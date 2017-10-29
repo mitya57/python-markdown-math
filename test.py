@@ -30,6 +30,8 @@ class MathTestCase(unittest.TestCase):
     test_standalone_tex = r('standalone_tex', 'standalone')
     test_begin_end = r('beginend', 'beginend')
     test_begin_end_preview = r('beginend', 'beginend_preview', add_preview=True)
+    test_inline_asciimath = r('inline_asciimath', 'inline_asciimath', use_asciimath=True)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

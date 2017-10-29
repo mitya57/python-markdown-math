@@ -21,8 +21,15 @@ class MathExtension(Extension):
             'enable_dollar_delimiter':
                 [False, 'Enable single-dollar delimiter'],
             'add_preview': [False, 'Add a preview node before each math node'],
+            'use_asciimath':
+                [False, 'Use AsciiMath syntax instead of TeX syntax'],
         }
         super(MathExtension, self).__init__(*args, **kwargs)
+
+    def _get_content_type(self):
+        if self.getConfig('use_asciimath'):
+            return 'math/asciimath'
+        return 'math/tex'
 
     def extendMarkdown(self, md, md_globals):
         def _wrap_node(node, preview_text, wrapper_tag):
@@ -36,13 +43,13 @@ class MathExtension(Extension):
 
         def handle_match_inline(m):
             node = etree.Element('script')
-            node.set('type', 'math/tex')
+            node.set('type', self._get_content_type())
             node.text = AtomicString(m.group(3))
             return _wrap_node(node, ''.join(m.group(2, 3, 4)), 'span')
 
         def handle_match(m):
             node = etree.Element('script')
-            node.set('type', 'math/tex; mode=display')
+            node.set('type', '%s; mode=display' % self._get_content_type())
             if '\\begin' in m.group(2):
                 node.text = AtomicString(''.join(m.group(2, 4, 5)))
                 return _wrap_node(node, ''.join(m.group(1, 2, 4, 5, 6)), 'div')
