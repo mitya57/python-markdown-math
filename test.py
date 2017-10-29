@@ -13,23 +13,23 @@ class MathTestCase(unittest.TestCase):
             html = html_file.read()
         self.assertEqual(html, md.convert(mkd) + '\n')
 
-    def r(*args):
-        return lambda self: self.verify(*args)
+    def r(mkd_name, html_name, **config):
+        return lambda self: self.verify(mkd_name, html_name, config=config)
 
     test_inline_latex = r('inline_latex', 'inline')
     test_inline_latex_escaped = r('inline_latex_escaped', 'inline_latex_escaped')
-    test_inline_latex_preview = r('inline_latex', 'inline_preview', {'add_preview': True})
-    test_inline_tex = r('inline_tex', 'inline', {'enable_dollar_delimiter': True})
+    test_inline_latex_preview = r('inline_latex', 'inline_preview', add_preview=True)
+    test_inline_tex = r('inline_tex', 'inline', enable_dollar_delimiter=True)
     test_inline_tex_disabled = r('inline_tex', 'inline_tex_disabled')
-    test_inline_tex_escaped = r('inline_tex_escaped', 'inline_tex_escaped', {'enable_dollar_delimiter': True})
+    test_inline_tex_escaped = r('inline_tex_escaped', 'inline_tex_escaped', enable_dollar_delimiter=True)
     test_inline_inside_code = r('inline_latex_inside_code', 'inline_latex_inside_code')
     test_inline_inside_standalone = r('inline_inside_standalone', 'inline_inside_standalone')
     test_standalone_latex = r('standalone_latex', 'standalone')
     test_standalone_latex_escaped = r('standalone_latex_escaped', 'standalone_latex_escaped')
-    test_standalone_latex_preview = r('standalone_latex', 'standalone_preview', {'add_preview': True})
+    test_standalone_latex_preview = r('standalone_latex', 'standalone_preview', add_preview=True)
     test_standalone_tex = r('standalone_tex', 'standalone')
     test_begin_end = r('beginend', 'beginend')
-    test_begin_end_preview = r('beginend', 'beginend_preview', {'add_preview': True})
+    test_begin_end_preview = r('beginend', 'beginend_preview', add_preview=True)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
