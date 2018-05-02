@@ -1,23 +1,14 @@
 #!/usr/bin/env python3
 
-from distutils.core import setup
+from setuptools import setup
 
-long_description = \
-"""This extension adds math formulas support to Python-Markdown_
-(works with version 2.6 or newer).
-
-.. _Python-Markdown: https://github.com/waylan/Python-Markdown
-
-You can find the source on GitHub_.
-Please refer to the `README file`_ for details on how to use it.
-
-.. _GitHub: https://github.com/mitya57/python-markdown-math
-.. _`README file`: https://github.com/mitya57/python-markdown-math/blob/master/README.md
-"""
+with open('README.md') as readme_file:
+    long_description = readme_file.read()
 
 setup(name='python-markdown-math',
       description='Math extension for Python-Markdown',
       long_description=long_description,
+      long_description_content_type='text/markdown',
       author='Dmitry Shachnev',
       author_email='mitya57@gmail.com',
       version='0.3',
