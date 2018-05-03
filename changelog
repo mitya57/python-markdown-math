@@ -1,3 +1,12 @@
+Version 0.4, 2018-05-03
+=======================
+
+* Added AsciiMath support. To switch from LaTeX syntax to AsciiMath,
+  set the “use_asciimath” configuration option to true.
+* The dollar sign can now be escaped when the “enable_dollar_delimiter”
+  option is enabled (\$ produces $).
+* Inline math can now be used inside standalone math.
+
 Version 0.3, 2017-03-24
 =======================
 
