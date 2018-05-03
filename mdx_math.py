@@ -68,6 +68,8 @@ class MathExtension(Extension):
         )
         if not self.getConfig('enable_dollar_delimiter'):
             inlinemathpatterns = inlinemathpatterns[1:]
+        if self.getConfig('use_asciimath'):
+            mathpatterns = mathpatterns[:-1]  # \begin...\end is TeX only
         for i, pattern in enumerate(mathpatterns):
             pattern.handleMatch = handle_match
             md.inlinePatterns.add('math-%d' % i, pattern, '<escape')
