@@ -7,7 +7,7 @@ Math extension for Python-Markdown
 
 This extension adds math formulas support to [Python-Markdown].
 
-[Python-Markdown]: https://github.com/waylan/Python-Markdown
+[Python-Markdown]: https://github.com/Python-Markdown/markdown
 
 Installation
 ------------
@@ -28,7 +28,7 @@ list of Python-Markdown extensions.
 Check [Python-Markdown documentation] for details on how to load
 extensions.
 
-[Python-Markdown documentation]: http://pythonhosted.org/Markdown/extensions/
+[Python-Markdown documentation]: https://python-markdown.github.io/reference/#extensions
 
 Usage
 -----
@@ -42,7 +42,7 @@ To use this extension, you need to include [MathJax] library in HTML files, like
 
 (replace `2.7.4` with the latest version if it is available).
 
-[MathJax]: http://www.mathjax.org/
+[MathJax]: https://www.mathjax.org/
 
 Also, you need to specify a configuration for MathJax. Please note that
 most of standard configuratons include `tex2jax` extension, which is not needed
