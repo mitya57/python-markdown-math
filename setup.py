@@ -14,4 +14,9 @@ setup(name='python-markdown-math',
       version='0.3',
       url='https://github.com/mitya57/python-markdown-math',
       py_modules=['mdx_math'],
+      entry_points={
+          'markdown.extensions': [
+              'mdx_math = mdx_math:MathExtension',
+          ],
+      },
       license='BSD')
