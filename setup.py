@@ -14,6 +14,7 @@ setup(name='python-markdown-math',
       version='0.6',
       url='https://github.com/mitya57/python-markdown-math',
       py_modules=['mdx_math'],
+      install_requires=['Markdown>=3.0'],
       entry_points={
           'markdown.extensions': [
               'mdx_math = mdx_math:MathExtension',

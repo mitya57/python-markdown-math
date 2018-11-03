@@ -31,7 +31,7 @@ class MathExtension(Extension):
             return 'math/asciimath'
         return 'math/tex'
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         def _wrap_node(node, preview_text, wrapper_tag):
             if not self.getConfig('add_preview'):
                 return node
@@ -72,10 +72,11 @@ class MathExtension(Extension):
             mathpatterns = mathpatterns[:-1]  # \begin...\end is TeX only
         for i, pattern in enumerate(mathpatterns):
             pattern.handleMatch = handle_match
-            md.inlinePatterns.add('math-%d' % i, pattern, '<escape')
+            # we should have higher priority than 'escape' which has 180
+            md.inlinePatterns.register(pattern, 'math-%d' % i, 185)
         for i, pattern in enumerate(inlinemathpatterns):
             pattern.handleMatch = handle_match_inline
-            md.inlinePatterns.add('math-inline-%d' % i, pattern, '<escape')
+            md.inlinePatterns.register(pattern, 'math-inline-%d' % i, 185)
         if self.getConfig('enable_dollar_delimiter'):
             md.ESCAPED_CHARS.append('$')
 
