@@ -98,3 +98,11 @@ Notes
 
 If you use [ReText](https://github.com/retext-project/retext), this extension
 is not needed as it is included by default.
+
+This extension also works with Katex.  Use the following in your page `<head>`:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/mathtex-script-type.min.js" defer></script> 
+```
