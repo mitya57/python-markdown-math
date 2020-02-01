@@ -7,12 +7,43 @@ Math extension for Python-Markdown
 Adds support for displaying math formulas using
 [MathJax](http://www.mathjax.org/).
 
-Author: 2015-2017, Dmitry Shachnev <mitya57@gmail.com>.
+Author: 2015-2020, Dmitry Shachnev <mitya57@gmail.com>.
 '''
 
-from markdown.inlinepatterns import Pattern
+from markdown.inlinepatterns import InlineProcessor
 from markdown.extensions import Extension
 from markdown.util import AtomicString, etree
+
+
+def _wrap_node(node, preview_text, wrapper_tag):
+    preview = etree.Element('span', {'class': 'MathJax_Preview'})
+    preview.text = AtomicString(preview_text)
+    wrapper = etree.Element(wrapper_tag)
+    wrapper.extend([preview, node])
+    return wrapper
+
+
+class InlineMathPattern(InlineProcessor):
+    def handleMatch(self, m, data):
+        node = etree.Element('script')
+        node.set('type', self._content_type)
+        node.text = AtomicString(m.group(2))
+        if self._add_preview:
+            node = _wrap_node(node, m.group(0), 'span')
+        return node, m.start(0), m.end(0)
+
+
+class DisplayMathPattern(InlineProcessor):
+    def handleMatch(self, m, data):
+        node = etree.Element('script')
+        node.set('type', '%s; mode=display' % self._content_type)
+        if '\\begin' in m.group(1):
+            node.text = AtomicString(m.group(0))
+        else:
+            node.text = AtomicString(m.group(2))
+        if self._add_preview:
+            node = _wrap_node(node, m.group(0), 'div')
+        return node, m.start(0), m.end(0)
 
 
 class MathExtension(Extension):
@@ -26,56 +57,33 @@ class MathExtension(Extension):
         }
         super(MathExtension, self).__init__(*args, **kwargs)
 
-    def _get_content_type(self):
-        if self.getConfig('use_asciimath'):
-            return 'math/asciimath'
-        return 'math/tex'
-
     def extendMarkdown(self, md):
-        def _wrap_node(node, preview_text, wrapper_tag):
-            if not self.getConfig('add_preview'):
-                return node
-            preview = etree.Element('span', {'class': 'MathJax_Preview'})
-            preview.text = AtomicString(preview_text)
-            wrapper = etree.Element(wrapper_tag)
-            wrapper.extend([preview, node])
-            return wrapper
-
-        def handle_match_inline(m):
-            node = etree.Element('script')
-            node.set('type', self._get_content_type())
-            node.text = AtomicString(m.group(3))
-            return _wrap_node(node, ''.join(m.group(2, 3, 4)), 'span')
-
-        def handle_match(m):
-            node = etree.Element('script')
-            node.set('type', '%s; mode=display' % self._get_content_type())
-            if '\\begin' in m.group(2):
-                node.text = AtomicString(''.join(m.group(2, 4, 5)))
-                return _wrap_node(node, ''.join(m.group(1, 2, 4, 5, 6)), 'div')
-            else:
-                node.text = AtomicString(m.group(3))
-                return _wrap_node(node, ''.join(m.group(2, 3, 4)), 'div')
-
         inlinemathpatterns = (
-            Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),   #  $...$
-            Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')      # \(...\)
+            InlineMathPattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),    #  $...$
+            InlineMathPattern(r'(?<!\\)(\\\()(.+?)(\\\))')       # \(...\)
         )
         mathpatterns = (
-            Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'),  # $$...$$
-            Pattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),     # \[...\]
-            Pattern(r'(?<!\\)(\\begin{([a-z]+?\*?)})(.+?)(\\end{\3})')
+            DisplayMathPattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'),  # $$...$$
+            DisplayMathPattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),     # \[...\]
+            DisplayMathPattern(                            # \begin...\end
+                r'(?<!\\)(\\begin{([a-z]+?\*?)})(.+?)(\\end{\2})')
         )
         if not self.getConfig('enable_dollar_delimiter'):
             inlinemathpatterns = inlinemathpatterns[1:]
         if self.getConfig('use_asciimath'):
             mathpatterns = mathpatterns[:-1]  # \begin...\end is TeX only
+
+        add_preview = self.getConfig('add_preview')
+        use_asciimath = self.getConfig('use_asciimath')
+        content_type = 'math/asciimath' if use_asciimath else 'math/tex'
         for i, pattern in enumerate(mathpatterns):
-            pattern.handleMatch = handle_match
+            pattern._add_preview = add_preview
+            pattern._content_type = content_type
             # we should have higher priority than 'escape' which has 180
             md.inlinePatterns.register(pattern, 'math-%d' % i, 185)
         for i, pattern in enumerate(inlinemathpatterns):
-            pattern.handleMatch = handle_match_inline
+            pattern._add_preview = add_preview
+            pattern._content_type = content_type
             md.inlinePatterns.register(pattern, 'math-inline-%d' % i, 185)
         if self.getConfig('enable_dollar_delimiter'):
             md.ESCAPED_CHARS.append('$')
