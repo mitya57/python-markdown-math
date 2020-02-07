@@ -10,22 +10,23 @@ Adds support for displaying math formulas using
 Author: 2015-2020, Dmitry Shachnev <mitya57@gmail.com>.
 '''
 
+from xml.etree.ElementTree import Element
 from markdown.inlinepatterns import InlineProcessor
 from markdown.extensions import Extension
-from markdown.util import AtomicString, etree
+from markdown.util import AtomicString
 
 
 def _wrap_node(node, preview_text, wrapper_tag):
-    preview = etree.Element('span', {'class': 'MathJax_Preview'})
+    preview = Element('span', {'class': 'MathJax_Preview'})
     preview.text = AtomicString(preview_text)
-    wrapper = etree.Element(wrapper_tag)
+    wrapper = Element(wrapper_tag)
     wrapper.extend([preview, node])
     return wrapper
 
 
 class InlineMathPattern(InlineProcessor):
     def handleMatch(self, m, data):
-        node = etree.Element('script')
+        node = Element('script')
         node.set('type', self._content_type)
         node.text = AtomicString(m.group(2))
         if self._add_preview:
@@ -35,7 +36,7 @@ class InlineMathPattern(InlineProcessor):
 
 class DisplayMathPattern(InlineProcessor):
     def handleMatch(self, m, data):
-        node = etree.Element('script')
+        node = Element('script')
         node.set('type', '%s; mode=display' % self._content_type)
         if '\\begin' in m.group(1):
             node.text = AtomicString(m.group(0))
