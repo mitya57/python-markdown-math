@@ -55,10 +55,16 @@ class MathExtension(Extension):
             'add_preview': [False, 'Add a preview node before each math node'],
             'use_asciimath':
                 [False, 'Use AsciiMath syntax instead of TeX syntax'],
+            'use_gitlab_delimiters':
+                [False, 'Use GitLab-style $`...`$ delimiters'],
         }
         super(MathExtension, self).__init__(*args, **kwargs)
 
     def extendMarkdown(self, md):
+        add_preview = self.getConfig('add_preview')
+        use_asciimath = self.getConfig('use_asciimath')
+        use_gitlab_delimiters = self.getConfig('use_gitlab_delimiters')
+
         inlinemathpatterns = (
             InlineMathPattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),    #  $...$
             InlineMathPattern(r'(?<!\\)(\\\()(.+?)(\\\))')       # \(...\)
@@ -71,11 +77,14 @@ class MathExtension(Extension):
         )
         if not self.getConfig('enable_dollar_delimiter'):
             inlinemathpatterns = inlinemathpatterns[1:]
-        if self.getConfig('use_asciimath'):
+        if use_asciimath:
             mathpatterns = mathpatterns[:-1]  # \begin...\end is TeX only
+        if use_gitlab_delimiters:
+            # https://gitlab.com/gitlab-org/gitlab/blob/master/doc/user/markdown.md#math
+            inlinemathpatterns = (
+                InlineMathPattern(r'(?<!\\)(\$`)([^`]+)(`\$)'),  # $`...`$
+            )
 
-        add_preview = self.getConfig('add_preview')
-        use_asciimath = self.getConfig('use_asciimath')
         content_type = 'math/asciimath' if use_asciimath else 'math/tex'
         for i, pattern in enumerate(mathpatterns):
             pattern._add_preview = add_preview
@@ -85,7 +94,10 @@ class MathExtension(Extension):
         for i, pattern in enumerate(inlinemathpatterns):
             pattern._add_preview = add_preview
             pattern._content_type = content_type
-            md.inlinePatterns.register(pattern, 'math-inline-%d' % i, 185)
+            # to use gitlab delimiters, we should have higher priority than
+            # 'backtick' which has 190
+            priority = 195 if use_gitlab_delimiters else 185
+            md.inlinePatterns.register(pattern, 'math-inline-%d' % i, priority)
         if self.getConfig('enable_dollar_delimiter'):
             md.ESCAPED_CHARS.append('$')
 
