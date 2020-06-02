@@ -13,6 +13,7 @@ Author: 2015-2020, Dmitry Shachnev <mitya57@gmail.com>.
 from xml.etree.ElementTree import Element
 from markdown.inlinepatterns import InlineProcessor
 from markdown.extensions import Extension
+from markdown.preprocessors import Preprocessor
 from markdown.util import AtomicString
 
 
@@ -47,6 +48,38 @@ class DisplayMathPattern(InlineProcessor):
         return node, m.start(0), m.end(0)
 
 
+class GitLabPreprocessor(Preprocessor):
+    """
+    Preprocessor for GitLab-style standalone syntax:
+
+    ```math
+    math goes here
+    ```
+    """
+
+    def run(self, lines):
+        inside_math_block = False
+        math_block_start = None
+        math_blocks = []
+
+        for line_number, line in enumerate(lines):
+            if line == '```math' and not inside_math_block:
+                math_block_start = line_number
+                inside_math_block = True
+            if line == '```' and inside_math_block:
+                math_blocks.append((math_block_start, line_number))
+                inside_math_block = False
+
+        for math_block_start, math_block_end in reversed(math_blocks):
+            math_lines = lines[math_block_start + 1:math_block_end]
+            math_content = '\n'.join(math_lines)
+            html = '<script type="%s; mode=display">\n%s\n</script>'
+            html %= (self._content_type, math_content)
+            placeholder = self.md.htmlStash.store(html)
+            lines[math_block_start:math_block_end + 1] = [placeholder]
+        return lines
+
+
 class MathExtension(Extension):
     def __init__(self, *args, **kwargs):
         self.config = {
@@ -64,6 +97,7 @@ class MathExtension(Extension):
         add_preview = self.getConfig('add_preview')
         use_asciimath = self.getConfig('use_asciimath')
         use_gitlab_delimiters = self.getConfig('use_gitlab_delimiters')
+        content_type = 'math/asciimath' if use_asciimath else 'math/tex'
 
         inlinemathpatterns = (
             InlineMathPattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),    #  $...$
@@ -84,8 +118,13 @@ class MathExtension(Extension):
             inlinemathpatterns = (
                 InlineMathPattern(r'(?<!\\)(\$`)([^`]+)(`\$)'),  # $`...`$
             )
+            mathpatterns = ()
+            preprocessor = GitLabPreprocessor(md)
+            preprocessor._content_type = content_type
+            # we should have higher priority than 'fenced_code_block' which
+            # has 25
+            md.preprocessors.register(preprocessor, 'math-gitlab', 27)
 
-        content_type = 'math/asciimath' if use_asciimath else 'math/tex'
         for i, pattern in enumerate(mathpatterns):
             pattern._add_preview = add_preview
             pattern._content_type = content_type
