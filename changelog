@@ -1,3 +1,10 @@
+Version 0.7, 2020-06-19
+=======================
+
+* This extension now requires Python ≥ 3.4 and Python-Markdown ≥ 3.0.
+* Fixed deprecation warnings with Python-Markdown 3.x.
+* Added support for GitLab-style delimiters.
+
 Version 0.6, 2018-06-13
 =======================
 
