@@ -46,7 +46,7 @@ Also, you need to specify a configuration for MathJax. Please note that
 most of standard configuratons include `tex2jax` extension, which is not needed
 with this code.
 
-Example of MathJax configuration:
+Example of configuration for MathJax 2.x:
 
 ```html
 <script type="text/x-mathjax-config">
@@ -57,6 +57,11 @@ MathJax.Hub.Config({
 });
 </script>
 ```
+
+If you want to use MathJax 3.x, you need to teach it to understand 2.x-style
+`<script>` tags. See the [upgrading documentation] on how to do it.
+Alternatively, you may use the [Arithmatex] extension which has a generic
+output mode, that does not require such special configuration.
 
 To pass the extension to Python-Markdown, use `mdx_math` as extension name.
 For example:
@@ -75,6 +80,9 @@ $ echo "\(e^x\)" | python3 -m markdown -x mdx_math
 <script type="math/tex">e^x</script>
 </p>
 ```
+
+[upgrading documentation]: https://docs.mathjax.org/en/latest/upgrading/v2.html#math-script-example
+[Arithmatex]: https://facelessuser.github.io/pymdown-extensions/extensions/arithmatex/
 
 Math Delimiters
 ---------------
