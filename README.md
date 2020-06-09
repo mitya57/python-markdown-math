@@ -36,11 +36,9 @@ Usage
 To use this extension, you need to include [MathJax] library in HTML files, like:
 
 ```html
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js">
 </script>
 ```
-
-(replace `2.7.4` with the latest version if it is available).
 
 [MathJax]: https://www.mathjax.org/
 
