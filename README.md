@@ -43,7 +43,7 @@ To use this extension, you need to include [MathJax] library in HTML files, like
 [MathJax]: https://www.mathjax.org/
 
 Also, you need to specify a configuration for MathJax. Please note that
-most of standard configuratons include `tex2jax` extension, which is not needed
+most of standard configurations include `tex2jax` extension, which is not needed
 with this code.
 
 Example of configuration for MathJax 2.x:
