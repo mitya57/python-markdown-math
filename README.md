@@ -89,9 +89,15 @@ The single-dollar delimiter (`$...$`) for inline math is disabled by
 default, but can be enabled by passing `enable_dollar_delimiter=True`
 in the extension configuration.
 
+If you want to use [GitLab-style delimiters] (``$`...`$`` for inline math,
+and a code block-like `` ```math...``` `` syntax for standalone), use
+`use_gitlab_delimiters=True` configuration option.
+
 If you want to this extension to generate a preview node (which will be shown
 when MathJax has not yet processed the node, or when JavaScript is unavailable),
 use `add_preview=True` configuration option.
+
+[GitLab-style delimiters]: https://gitlab.com/gitlab-org/gitlab/blob/master/doc/user/markdown.md#math
 
 Notes
 -----
@@ -104,5 +110,5 @@ This extension also works with Katex.  Use the following in your page `<head>`:
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/mathtex-script-type.min.js" defer></script> 
+<script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/mathtex-script-type.min.js" defer></script>
 ```
