@@ -73,7 +73,7 @@ class GitLabPreprocessor(Preprocessor):
         for math_block_start, math_block_end in reversed(math_blocks):
             math_lines = lines[math_block_start + 1:math_block_end]
             math_content = '\n'.join(math_lines)
-            html = '<script type="%s; mode=display">\n%s\n</script>'
+            html = '<script type="%s; mode=display">\n%s\n</script>\n'
             html %= (self._content_type, math_content)
             placeholder = self.md.htmlStash.store(html)
             lines[math_block_start:math_block_end + 1] = [placeholder]
