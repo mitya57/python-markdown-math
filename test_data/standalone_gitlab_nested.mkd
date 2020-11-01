@@ -1,0 +1,5 @@
+- in list:
+  ```math  
+  e^{i \varphi} =
+  \cos \varphi + i \sin \varphi
+  ```   

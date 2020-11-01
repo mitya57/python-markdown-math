@@ -63,10 +63,10 @@ class GitLabPreprocessor(Preprocessor):
         math_blocks = []
 
         for line_number, line in enumerate(lines):
-            if line == '```math' and not inside_math_block:
+            if line.strip() == '```math' and not inside_math_block:
                 math_block_start = line_number
                 inside_math_block = True
-            if line == '```' and inside_math_block:
+            if line.strip() == '```' and inside_math_block:
                 math_blocks.append((math_block_start, line_number))
                 inside_math_block = False
 

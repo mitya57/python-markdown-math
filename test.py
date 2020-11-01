@@ -30,6 +30,7 @@ class MathTestCase(unittest.TestCase):
     test_standalone_latex_preview = r('standalone_latex', 'standalone_preview', add_preview=True)
     test_standalone_tex = r('standalone_tex', 'standalone')
     test_standalone_gitlab = r('standalone_gitlab', 'standalone_gitlab', use_gitlab_delimiters=True)
+    test_standalone_gitlab_nested = r('standalone_gitlab_nested', 'standalone_gitlab_nested', use_gitlab_delimiters=True)
     test_begin_end = r('beginend', 'beginend')
     test_begin_end_preview = r('beginend', 'beginend_preview', add_preview=True)
     test_inline_asciimath = r('inline_asciimath', 'inline_asciimath', use_asciimath=True)
