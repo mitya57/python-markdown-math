@@ -1,3 +1,11 @@
+Version 0.8, 2020-11-03
+=======================
+
+* GitLab-style math blocks are now supported in nested environments such
+  as lists.
+  - Thanks to Ran Shaham for the contribution.
+* Tests now pass with Python-Markdown 3.3.
+
 Version 0.7, 2020-06-19
 =======================
 
