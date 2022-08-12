@@ -33,6 +33,8 @@ class MathTestCase(unittest.TestCase):
     test_standalone_gitlab_nested = r('standalone_gitlab_nested', 'standalone_gitlab_nested', use_gitlab_delimiters=True)
     test_begin_end = r('beginend', 'beginend')
     test_begin_end_preview = r('beginend', 'beginend_preview', add_preview=True)
+    test_begin_end_inside_inline = r('beginend_inside_inline', 'beginend_inside_inline')
+    test_begin_end_inside_standalone = r('beginend_inside_standalone', 'beginend_inside_standalone')
     test_inline_asciimath = r('inline_asciimath', 'inline_asciimath', use_asciimath=True)
 
 

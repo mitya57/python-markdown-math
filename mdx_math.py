@@ -129,7 +129,9 @@ class MathExtension(Extension):
             pattern._add_preview = add_preview
             pattern._content_type = content_type
             # we should have higher priority than 'escape' which has 180
-            md.inlinePatterns.register(pattern, 'math-%d' % i, 185)
+            # also begin/end pattern should have lower priority than all others
+            priority = 184 if i == 2 else 185
+            md.inlinePatterns.register(pattern, 'math-%d' % i, priority)
         for i, pattern in enumerate(inlinemathpatterns):
             pattern._add_preview = add_preview
             pattern._content_type = content_type
