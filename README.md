@@ -102,7 +102,7 @@ If you want to this extension to generate a preview node (which will be shown
 when MathJax has not yet processed the node, or when JavaScript is unavailable),
 use `add_preview=True` configuration option.
 
-[GitLab-style delimiters]: https://gitlab.com/gitlab-org/gitlab/blob/master/doc/user/markdown.md#math
+[GitLab-style delimiters]: https://docs.gitlab.com/user/markdown/#math-equations
 
 Notes
 -----
