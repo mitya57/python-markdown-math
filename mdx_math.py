@@ -5,7 +5,7 @@ Math extension for Python-Markdown
 Adds support for displaying math formulas using
 [MathJax](http://www.mathjax.org/).
 
-Author: 2015-2020, Dmitry Shachnev <mitya57@gmail.com>.
+Author: 2015-2025, Dmitry Shachnev <mitya57@gmail.com>.
 '''
 
 from xml.etree.ElementTree import Element
