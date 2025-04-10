@@ -1,3 +1,11 @@
+Version 0.9, 2025-04-10
+=======================
+
+* Fixed handling of begin/end inside inline math.
+  - Thanks to Tianxiang Xia for the bug report.
+* Modernized packaging.
+* Python ≥ 3.9 and setuptools ≥ 77.0 are now required.
+
 Version 0.8, 2020-11-03
 =======================
 
