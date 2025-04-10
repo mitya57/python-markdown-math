@@ -1,2 +1,23 @@
 [build-system]
-requires = ["setuptools>=30.3", "wheel"]
+requires = ["setuptools>=77.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-markdown-math"
+version = "0.8"
+description = "Math extension for Python-Markdown"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [{ name = "Dmitry Shachnev", email = "mitya57@gmail.com" }]
+license = "BSD-3-Clause"
+requires-python = ">=3.9"
+dependencies = ["Markdown>=3.0"]
+
+[project.entry-points."markdown.extensions"]
+mdx_math = "mdx_math:MathExtension"
+
+[project.urls]
+Homepage = "https://github.com/mitya57/python-markdown-math"
+
+[tool.setuptools]
+py-modules = ["mdx_math"]
+include-package-data = false

@@ -20,8 +20,7 @@ $ pip install python-markdown-math
 
 ### Install locally
 
-Use `setup.py build` and `setup.py install` to build and install this
-extension, respectively.
+Use `pip install .` to install this extension from a local Git checkout.
 
 The extension name is `mdx_math`, so you need to add that name to your
 list of Python-Markdown extensions.
