@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 '''
 Math extension for Python-Markdown
 ==================================
@@ -91,7 +89,7 @@ class MathExtension(Extension):
             'use_gitlab_delimiters':
                 [False, 'Use GitLab-style $`...`$ delimiters'],
         }
-        super(MathExtension, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md):
         add_preview = self.getConfig('add_preview')
