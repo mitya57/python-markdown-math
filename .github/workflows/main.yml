@@ -19,3 +19,20 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: pip install Markdown
       - run: python ./test.py
+  pypi-publish:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/python-markdown-math
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install build
+      - run: python -m build
+      - if: success()
+        uses: pypa/gh-action-pypi-publish@release/v1
